@@ -1,0 +1,144 @@
+1.prime
+
+using System;
+namespace day2
+{
+    class Primes
+    {
+        static bool CheckPrime(int number)
+        {
+            if (number == 1)
+            {
+                return false;
+
+            }
+            for (int i = 2; i * i <= number; i++)
+            {
+                if (number % i == 0)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+        static int SumOfPrime(int from, int too)
+        {
+            int sum = 0;
+            for (int i = too; i >= 1; i--)
+            {
+                bool isPrime = CheckPrime(i);
+                if (isPrime)
+                {
+                    sum = sum + i;
+                }
+            }
+            return sum;
+        }
+
+        public static void Main()
+        {
+            int from = 5, too = 12;
+            Console.WriteLine(SumOfPrime(from,too));
+        }
+    }
+}
+
+
+
+2. fibonacci
+
+using System;
+
+namespace Day2
+{
+    class Program
+    {
+        public static int Fibonacci(int index)
+        {
+            int firstnumber = 0, secondnumber = 1, result = 0;
+            if (index == 0) return 0; 
+            if (index == 1) return 1; 
+            return Fibonacci(index - 1) + Fibonacci(index- 2);
+        }
+        static void Main(string[] args)
+        {
+            Console.Write("Length of the Fibonacci Series: ");
+            int length = Convert.ToInt32(Console.ReadLine());
+            for (int i = 0; i < length; i++)
+            {
+                Console.Write("{0} ", Fibonacci(i));
+            }
+            Console.ReadKey();
+        }
+    }
+}
+
+
+
+
+
+3.pattern
+
+
+using System;
+namespace ConsoleApp2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int i, j, k;
+            int n = 5;
+
+            for (i = 1; i <= n; ++i)
+            {
+                for (j = 1; j <=n; ++j)
+                {
+                    Console.Write(" ");
+                }
+                for (k = 1; k <= i; ++k)
+                {
+                    Console.Write("*");
+                }
+                Console.WriteLine("");
+            }
+            Console.ReadLine();
+        }
+    }
+}
+
+
+
+4.team names
+
+
+using System;
+
+
+namespace day2
+{
+    class Names
+    {
+        static void Main(string[] args)
+        {
+            string[] names = new string[2];
+            Console.WriteLine("enter the names");
+            for (int i = 0; i < names.Length; i++)
+            {
+                names[i] = Console.ReadLine();
+}
+            Console.WriteLine("teams");
+            foreach (string name in names)
+            {
+                Console.Write(names + "\n");
+            }
+            Console.Read();
+
+        }
+    }
+}
+
+
+
+
+
