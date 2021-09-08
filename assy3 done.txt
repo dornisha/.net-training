@@ -1,0 +1,139 @@
+1.
+using System;
+
+namespace Day3
+{
+    class New
+    {
+		public class Employee
+		{
+
+			private int employeeIdVar;
+			private string employeeNameVar;
+			private string employeeAddressVar;
+			private string employeeDobVar;
+
+			public int EmployeeId
+			{
+				get
+				{
+					return employeeIdVar;
+				}
+				set
+				{
+					employeeIdVar = value;
+				}
+			}
+
+			public string EmployeeName
+			{
+				get
+				{
+					return employeeNameVar;
+				}
+				set
+				{
+					employeeNameVar = value;
+				}
+			}
+			public string EmployeeAddress
+			{
+				get
+				{
+					return employeeAddressVar;
+				}
+				set
+				{
+					employeeAddressVar = value;
+				}
+			}
+			public int EmployeeDob
+			{
+				get
+				{
+					return employeeDobVar;
+				}
+				set
+				{
+					employeeDobVar = value;
+				}
+			}
+
+2.
+
+ static void Main(string[] args)
+        {
+      
+            Employee Emplyees = new Employee { EmpId = 123, EmpNme = "jane", EmpAddress = "bangalore", DOB="24" }; //New syntax of C# 4.0 
+            Console.WriteLine(Emplyees);//What happens?: It by default converts the object to a string representation and displays it on the console.
+            Console.WriteLine($"The Name: {Emplyees.EmpId} from {Emplyees.EmpNme} who has billed an amount of {Emplyees.EmpAddress} dated {Emplyees.DOB}");
+        }
+    }
+        
+}
+
+3.
+using System;
+
+namespace Day3
+{
+	class Class1
+	{
+		private int employeeIdVar;
+		private string employeeNameVar;
+		private string employeeAddressVar;
+		
+
+		public int EmployeeId
+		{
+			get
+			{
+				return employeeIdVar;
+			}
+			set
+			{
+				employeeIdVar = value;
+			}
+		}
+
+		public string EmployeeName
+		{
+			get
+			{
+				return employeeNameVar;
+			}
+			set
+			{
+				employeeNameVar = value;
+			}
+		}
+		public string EmployeeAddress
+		{
+			get
+			{
+				return employeeAddressVar;
+			}
+			set
+			{
+				employeeAddressVar = value;
+			}
+		}
+		
+		static void Main(string[] args)
+		{
+			Console.WriteLine("Enter the id please");
+			string EmployeeId = Console.ReadLine();
+			Console.WriteLine("Enter the Name please");
+			string EmployeeName = Console.ReadLine();
+			Console.WriteLine("Enter the address please");
+			string EmployeeAddress = Console.ReadLine();
+
+			Console.WriteLine("Enter the Date of Birth as dd/MM/yyyy");
+			string EmployeeDob = Console.ReadLine();
+
+			DateTime dt = DateTime.Parse(EmployeeDob);//Function used to Convert string to a valid Date
+			int age = DateTime.Now.Year - dt.Year;//Difference in Years of 2 given Dates
+			Console.WriteLine("UR age is currently " + age + " Years");
+		}
+	}
+}
