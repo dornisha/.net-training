@@ -1,0 +1,74 @@
+using System;
+
+namespace day5
+{
+    class Account
+    {
+        public int Accno { get; set; }
+        public string Name { get; set; }
+        public double Balance { get; set; }
+        public void Credit(double amount)
+        {
+            Balance += amount;
+        }
+        public void Debit(double amount)
+        {
+            Balance -= amount;
+        }
+            class SBAccount : Account { };
+            class RDACCOUNT : Account { };
+            class FDACCOUNT : Account { };
+        
+        static class AccountManager
+
+        {
+            public static Account CreateAccount(string accountType)
+            {
+                Account fn = null;
+                switch (accountType)
+                {
+                    case "sb":
+                        fn = new SBAccount();
+                        break;
+                    case "rd":
+                        fn = new RDACCOUNT();
+                        break;
+                    case "fd":
+                        fn = new FDACCOUNT();
+                        break;
+                    default:
+                        Console.WriteLine("Not valid account");
+                        break;
+                }
+                return fn;
+            }
+
+        }
+        static Account CreateUseAct()
+        {
+            Console.WriteLine("enter the type of acc:");
+            string accountType = Console.ReadLine();
+            Account ac1 = AccountManager.CreateAccount(accountType);
+            return ac1;
+        }
+        static Account Details()
+        {
+            Account ac = CreateUseAct();
+            Console.WriteLine("enter acc no:");
+            ac.Accno = int.Parse(Console.ReadLine());
+            Console.WriteLine("enter name:");
+            ac.Name = Console.ReadLine();
+            Console.WriteLine("enter amount to open acc :");
+            ac.Credit(int.Parse(Console.ReadLine()));
+            return ac;
+        }
+        static void Main(string[] args)
+        {
+            Account ac1 = Details();
+            Account ac2 = Details();
+            Account ac3 = Details();
+            Account ac4 = Details();
+            Account ac5 = Details();
+        }
+    }
+} 
