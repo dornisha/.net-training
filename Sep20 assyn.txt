@@ -1,0 +1,119 @@
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Sept20
+{
+    class Book
+    {
+        public string Title { get; set; }
+        public int BookID { get; set; }
+        public string Author { get; set; }
+        public double Price { get; set; }
+
+        public override string ToString()
+        {
+            return $"{Title},{BookID},{Author},{Price}";
+        }
+        interface IBook
+        {
+            void AddNewBook(Book bk);
+            void DeleteBook(int id);
+            void UpdateBook(Book bk);
+            Book FindBooks(int id);
+        }
+        class FileBookDB : IBook
+        {
+            private List<Book> Books = null;
+            private string fileName = "book.csv";
+            private void saveRecords()
+            {
+                string data = string.Empty;
+                foreach (var pp in Books)
+                    data += pp.ToString() + "\n";
+                File.WriteAllText(fileName, data);
+            }
+            public void loadRecords()
+            {
+                Books.Clear();
+                var arrayOfLines = File.ReadAllLines(fileName);
+                foreach (var line in arrayOfLines)
+                {
+                    var words = line.Split(',');
+                    var pp = new Book
+                    {
+                        BookID = int.Parse(words[0]),
+                        Title = words[1],
+                        Author = words[2],
+                        Price = double.Parse(words[3])
+                    };
+                    Books.Add(pp);
+
+                }
+
+
+            }
+            public FileBookDB()
+            {
+                Books = new List<Book>();
+            }
+
+            public void AddNewBook(Book bk)
+            {
+                if (bk == null) throw new Exception("Book details must be set");
+                File.AppendAllText(fileName, bk.ToString() + "\n");
+            }
+
+            public void DeleteBook(int id)
+            {
+                loadRecords();
+                var rd = Books.Find((e) => e.BookID == id);
+                Books.Remove(rd);
+                saveRecords();
+            }
+
+            public Book FindBooks(int id)
+            {
+                loadRecords();
+                // var recc = Books.Find((e) => e.Title == title);
+                //if (recc == null) throw new Exception("Book not found");
+                var rd = Books.Find((e) => e.BookID == id);
+                return rd;
+            }
+
+
+            public void UpdateBook(Book bk)
+            {
+
+                throw new NotImplementedException();
+            }
+        }
+
+        class BookAssynment
+        {
+            static Book CreateBook()
+            {
+                var id = MyConsole.GetNumber("enter the book id");
+                var title = MyConsole.GetString("enter the name");
+                var author = MyConsole.GetString("enter the address");
+                var price = MyConsole.GetDouble("enter the Salary");
+                return new Book { BookID = (int)id, Author = author, Title = title, Price = price };
+
+
+            }
+
+            static void Main(string[] args)
+            {
+                Book pp = CreateBook();
+                IBook db = new FileBookDB();
+                db.AddNewBook(pp);
+
+            }
+        }
+
+    }
+}

@@ -1,0 +1,123 @@
+using System;
+using System.IO;
+using System.Collections.Generic;
+using System.Text;
+using System.Threading.Tasks;
+using System.Runtime.Serialization;
+
+namespace Sept21
+{
+    class Employee
+    {
+        public int EmpID { get; set; }
+        public string EmpName { get; set; }
+        public string EmpAddress { get; set; }
+        public double EmpSalary { get; set; }
+        public override string ToString()
+        {
+            return $"{EmpID},{EmpName},{EmpAddress},{EmpSalary}";
+        }
+    }
+
+    public class DataException : ApplicationException
+    {
+        public DataException()
+        {
+        }
+
+        public DataException(string message) : base(message)
+        {
+        }
+
+        public DataException(string message, Exception innerException) : base(message, innerException)
+        {
+        }
+
+    }
+    class DataStore<T> where T : Employee
+    {
+        private List<T> emp = new List<T>();
+
+        public void AddEmployee(T a)
+        {
+            if (a == null) throw new DataException("no details available to insert");
+            emp.Add(a);
+            File.AppendAllText("Employees.txt", (a.ToString() + "\n"));
+        }
+        public void DeleteEmployee(T a)
+        {
+            LoadRecords();
+            if (!emp.Remove(a)) throw new DataException("records not found");
+            SaveRecords();
+        }
+        public void UpdateEmployee(T a)
+        {
+            LoadRecords();
+            var rec = emp.Find((e) => e.EmpID == a.EmpID);
+            rec.EmpName = a.EmpName;
+            rec.EmpAddress = a.EmpAddress;
+            rec.EmpSalary = a.EmpSalary;
+            SaveRecords();
+
+
+        }
+        public List<T> Find(string name)
+        {
+            LoadRecords();
+            return emp.FindAll((e) => e.EmpName.Contains(name));
+
+        }
+        private void SaveRecords()
+        {
+            var content = string.Empty;
+            foreach (var data in emp)
+            {
+                content += data + "\n";
+            }
+            File.WriteAllText("Employee.txt", content);
+
+        }
+        private void LoadRecords()
+        {
+            emp = new List<T>();
+            var lines = File.ReadAllLines("Emoloyees.txt");
+            foreach (var line in lines)
+            {
+                var words = line.Split('_');
+                T info = (T)new Employee
+                {
+                    EmpID = Convert.ToInt32(words[0]),
+                    EmpAddress = words[2],
+                    EmpName = words[1],
+                    EmpSalary = Convert.ToDouble(words[3])
+                };
+                emp.Add(info);
+            }
+            return;
+        }
+    }
+    class EmployeeDemo
+    {
+        static DataStore<Employee> employees = new DataStore<Employee>();
+        static void Main(string[] args)
+        {
+            employees.AddEmployee(new Employee { EmpID = 123, EmpAddress = "bangalore", EmpName = "Janetha", EmpSalary = 35000 });
+            employees.AddEmployee(new Employee { EmpID = 124, EmpAddress = "mysore", EmpName = "Kiran", EmpSalary = 36000 });
+            employees.AddEmployee(new Employee { EmpID = 125, EmpAddress = "delhi", EmpName = "Deepa", EmpSalary = 35700 });
+            employees.AddEmployee(new Employee { EmpID = 126, EmpAddress = "hyderabad", EmpName = "karan", EmpSalary = 45000 });
+            employees.AddEmployee(new Employee { EmpID = 127, EmpAddress = "kolar", EmpName = "Anna", EmpSalary = 25000 });
+
+        }
+    }
+}
+    
+
+
+
+
+
+
+
+
+
+
